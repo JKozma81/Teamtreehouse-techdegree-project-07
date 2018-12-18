@@ -16,6 +16,9 @@ class App extends Component {
         </button>
       </form> */}
 
+      {/* <img src="http://www.harneedi.com/img/loading_image.gif" alt="loading" />
+      <img src="https://www.achievo.co.in/Content/loader.gif" alt="loading" /> */}
+
       {/* <nav class="main-nav">
         <ul>
           <li><a href='#'>Cats</a></li>

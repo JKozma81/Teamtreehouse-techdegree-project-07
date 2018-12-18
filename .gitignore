@@ -64,8 +64,9 @@ typings/
 # next.js build output
 .next
 
-# Ignore config.js
+# Ignore config.js an instructions.txt
 config.js
+instructions.txt
 
 # Misc
 .DS_Store
