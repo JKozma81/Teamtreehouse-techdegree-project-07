@@ -1,11 +1,15 @@
 import React from 'react';
+import {NavLink} from 'react-router-dom';
 
 const Navigation = (props) => {
   let tags = props.categories.map((category, index) => (
       <li key={index}>
-        <a href='#'>
+        <NavLink 
+          to={`/${category}`}
+          onClick={props.handleClick}
+        >
           {category}
-        </a>
+        </NavLink>
       </li>));
 
   return (

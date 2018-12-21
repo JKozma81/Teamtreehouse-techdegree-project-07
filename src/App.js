@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import {BrowserRouter, Route} from 'react-router-dom';
 import axios from 'axios';
 import './css/index.css';
 import ApiKey from './Config';
+
 
 // Component imports
 import SearchForm from './Components/SearchForm';
@@ -11,10 +13,11 @@ import Gallery from './Components/Gallery';
 
 class App extends Component {
   state = {
-    favoritCategories: ['Tiger', 'Nature', 'Cacadu'],
+    favoritCategories: ['Mustang', 'Koalas', 'Parrot'],
     favoritsData: [],
     searchText: '',
-    searchData: []
+    searchData: [],
+    navIndex: undefined
   }
 
   componentDidMount() {
@@ -22,38 +25,60 @@ class App extends Component {
     const datas = Promise.all(promises)
 
     datas.then(res => {
-      console.log(res);
       const data = res.map((el) => el.data.photos.photo);
+      console.log(data);
       this.setState({
         favoritsData: [...data]
       })
     })
   }
 
-  fetchData = async (searchFor) => {
-    const url = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${ApiKey}&text=${searchFor}&media=photos&per_page=24&page=1&format=json&nojsoncallback=1`;
-    const request = await axios.get(url);
+  fetchData = (searchFor) => {
+    const url = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${ApiKey}&tags=${searchFor.toLowerCase()}&media=photos&per_page=24&page=1&format=json&nojsoncallback=1`;
+
+    const request = axios.get(url);
     return request;
   }
 
-  createUrlForImage = (dataForUrl) => {
-    // https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
-    const url = ''
+  handleNavClick = (target) => {
+    const menuIndex = this.state.favoritCategories.indexOf(target.textContent);
+    this.setState({
+      navIndex: menuIndex
+    });
   }
 
 
   render() {
     return (
-      <div className="App">
-
+      <BrowserRouter>
+        <div className="App">
         <SearchForm />
-
-        <Navigation categories={this.state.favoritCategories}/>
-
-        <Gallery 
-          data={this.state.favoritsData}
+        <Navigation 
+          categories={this.state.favoritCategories}
+          handleClick={(event) => this.handleNavClick(event.target)}
         />
-      </div>
+
+        {
+          this.state.favoritCategories.map((el, index) => (
+              <Route path={`/${el}`} 
+                key={index} 
+                render={() => 
+                  <Gallery 
+                    data={this.state.favoritsData}
+                    menuIndex={this.state.navIndex}
+                  />
+                }
+              />
+            )
+          )
+        }
+
+        <Route exact path={`/search/:${this.state.searchText}`} 
+          render={() => <Gallery data={this.state.searchData}/>}
+        />
+
+        </div>
+      </BrowserRouter>
     );
   }
 }
