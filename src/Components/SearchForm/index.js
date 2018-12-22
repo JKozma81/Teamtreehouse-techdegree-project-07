@@ -1,16 +1,27 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom'
 
 class SearchForm extends Component {
 
-  render() {
+  handleSearch = (event) => {
+    event.preventDefault();
+    this.props.onSearch(this.searchFor.value);
+    
 
+    const path=`/search/${this.searchFor.value.includes(' ') ? this.searchFor.value.split(' ').join('-').toLowerCase() : this.searchFor.value.toLowerCase()}`;
+    this.props.history.push(path);
+    event.currentTarget.reset();
+  }
+
+  render() {
     return (
-      <form className="search-form">
+      <form className="search-form" onSubmit={this.handleSearch}>
         <input 
           type="search"
           name="search"
           placeholder="Search"
           required
+          ref={(input) => this.searchFor = input}
           />
 
         <button type="submit" className="search-button">
@@ -24,4 +35,4 @@ class SearchForm extends Component {
   }
 }
 
-export default SearchForm;
+export default withRouter(SearchForm);

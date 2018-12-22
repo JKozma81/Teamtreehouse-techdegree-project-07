@@ -17,7 +17,8 @@ class App extends Component {
     favoritsData: [],
     searchText: '',
     searchData: [],
-    navIndex: undefined
+    menuIndex: undefined,
+    searching: false
   }
 
   componentDidMount() {
@@ -26,16 +27,15 @@ class App extends Component {
 
     datas.then(res => {
       const data = res.map((el) => el.data.photos.photo);
-      console.log(data);
       this.setState({
-        favoritsData: [...data]
+        favoritsData: [...data],
+        searching: false
       })
-    })
+    }).catch(err => console.error(err));
   }
 
   fetchData = (searchFor) => {
-    const url = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${ApiKey}&tags=${searchFor.toLowerCase()}&media=photos&per_page=24&page=1&format=json&nojsoncallback=1`;
-
+    const url = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${ApiKey}&tags=${searchFor.toLowerCase()}&per_page=24&page=1&format=json&nojsoncallback=1`;
     const request = axios.get(url);
     return request;
   }
@@ -43,16 +43,38 @@ class App extends Component {
   handleNavClick = (target) => {
     const menuIndex = this.state.favoritCategories.indexOf(target.textContent);
     this.setState({
-      navIndex: menuIndex
+      menuIndex
     });
   }
 
+  performSearch = (query) => {
+    let textToSearch = '';
+    this.setState({
+      searching: true
+    })
+
+    if (query.includes(' ') > -1) {
+      textToSearch = query.split(' ').join('+');
+    } else {
+      textToSearch = query;
+    }
+
+    const fetchedData = this.fetchData(textToSearch);
+    fetchedData.then((res) => {
+      const data = res.data.photos.photo;
+      this.setState({
+        searchText: query,
+        searchData: [...data]
+      })
+    }).catch(err => console.error(err));
+  }
 
   render() {
     return (
       <BrowserRouter>
         <div className="App">
-        <SearchForm />
+        <Route path='/' render={() => <SearchForm onSearch={this.performSearch} />} />
+
         <Navigation 
           categories={this.state.favoritCategories}
           handleClick={(event) => this.handleNavClick(event.target)}
@@ -62,19 +84,12 @@ class App extends Component {
           this.state.favoritCategories.map((el, index) => (
               <Route path={`/${el}`} 
                 key={index} 
-                render={() => 
-                  <Gallery 
-                    data={this.state.favoritsData}
-                    menuIndex={this.state.navIndex}
-                  />
-                }
+                render={() => <Gallery data={this.state.favoritsData[this.state.menuIndex]} />}
               />
-            )
-          )
+          ))
         }
 
-        <Route exact path={`/search/:${this.state.searchText}`} 
-          render={() => <Gallery data={this.state.searchData}/>}
+        <Route exact path={`/search/:searchFor`} render={() => <Gallery data={this.state.searchData} searching={this.state.searching} />}
         />
 
         </div>

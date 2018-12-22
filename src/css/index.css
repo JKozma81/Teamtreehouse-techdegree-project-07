@@ -123,3 +123,15 @@ input {
     width: 100px;
   }
 }
+
+/* My custom styles */
+
+.photo-container ul .loading {
+  display: block;
+  margin: 0 auto;
+  width: 120px;
+  background-image: url("http://www.harneedi.com/img/loading_image.gif");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
