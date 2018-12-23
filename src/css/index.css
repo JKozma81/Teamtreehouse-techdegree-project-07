@@ -123,3 +123,33 @@ input {
     width: 100px;
   }
 }
+
+/* My custom styles */
+
+.photo-container .loading {
+  width: 100%;
+  display: block;
+}
+
+.photo-container .loading .loading--img {
+  width: 50px;
+  margin: 0 auto;
+}
+
+.App .error-container {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 88vh;
+  background-image: url('../img/404.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.App .error-container a {
+  font-weight: bold;
+  transform: translateX(-50%);
+  position: absolute;
+  bottom: 5%;
+}
