@@ -30,8 +30,7 @@ class App extends Component {
     datas.then(res => {
       const data = res.map((el) => el.data.photos.photo);
       this.setState({
-        favoritsData: [...data],
-        searching: false
+        favoritsData: [...data]
       })
     }).catch(err => console.error(err));
   }
@@ -45,6 +44,7 @@ class App extends Component {
   performSearch = (query) => {
     let textToSearch = '';
     this.setState({
+      searchText: query,
       searching: true,
       searchData: []
     })
@@ -58,11 +58,9 @@ class App extends Component {
     const fetchedData = this.fetchData(textToSearch);
     fetchedData.then((res) => {
       const data = res.data.photos.photo;
-
       this.setState({
-        searchText: query,
         searchData: [...data],
-
+        searching: false
       })
     }).catch(err => console.error(err));
   }
@@ -105,7 +103,7 @@ class App extends Component {
           })       
         }
 
-        <Route exact path='/search/:searchFor' render={
+        <Route exact path={`/search/:${this.state.searchText.includes(' ') ? this.state.searchText.split(' ').join('-') : this.state.searchText}`} render={
           () => {
             return (
               <>
