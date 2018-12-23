@@ -6,7 +6,6 @@ class SearchForm extends Component {
   handleSearch = (event) => {
     event.preventDefault();
     this.props.onSearch(this.searchFor.value);
-    
 
     const path=`/search/${this.searchFor.value.includes(' ') ? this.searchFor.value.split(' ').join('-').toLowerCase() : this.searchFor.value.toLowerCase()}`;
     this.props.history.push(path);

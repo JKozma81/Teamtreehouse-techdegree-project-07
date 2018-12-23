@@ -6,7 +6,6 @@ const Navigation = (props) => {
       <li key={index}>
         <NavLink 
           to={`/${category}`}
-          onClick={props.handleClick}
         >
           {category}
         </NavLink>

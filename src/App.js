@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import axios from 'axios';
 import './css/index.css';
 import ApiKey from './Config';
@@ -9,6 +9,7 @@ import ApiKey from './Config';
 import SearchForm from './Components/SearchForm';
 import Navigation from './Components/Nav';
 import Gallery from './Components/Gallery';
+import ErrorPage from './Components/Error';
 
 
 class App extends Component {
@@ -18,7 +19,8 @@ class App extends Component {
     searchText: '',
     searchData: [],
     menuIndex: undefined,
-    searching: false
+    searching: false,
+
   }
 
   componentDidMount() {
@@ -40,17 +42,11 @@ class App extends Component {
     return request;
   }
 
-  handleNavClick = (target) => {
-    const menuIndex = this.state.favoritCategories.indexOf(target.textContent);
-    this.setState({
-      menuIndex
-    });
-  }
-
   performSearch = (query) => {
     let textToSearch = '';
     this.setState({
-      searching: true
+      searching: true,
+      searchData: []
     })
 
     if (query.includes(' ') > -1) {
@@ -62,9 +58,11 @@ class App extends Component {
     const fetchedData = this.fetchData(textToSearch);
     fetchedData.then((res) => {
       const data = res.data.photos.photo;
+
       this.setState({
         searchText: query,
-        searchData: [...data]
+        searchData: [...data],
+
       })
     }).catch(err => console.error(err));
   }
@@ -73,25 +71,56 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-        <Route path='/' render={() => <SearchForm onSearch={this.performSearch} />} />
-
-        <Navigation 
-          categories={this.state.favoritCategories}
-          handleClick={(event) => this.handleNavClick(event.target)}
-        />
+        <Switch>
+        <Route exact path='/' render={
+          () => {
+            return (
+              <>
+              <SearchForm onSearch={this.performSearch} />
+              <Navigation 
+                categories={this.state.favoritCategories}
+              />
+              </>              
+            );
+          }
+        }/>
 
         {
-          this.state.favoritCategories.map((el, index) => (
-              <Route path={`/${el}`} 
-                key={index} 
-                render={() => <Gallery data={this.state.favoritsData[this.state.menuIndex]} />}
-              />
-          ))
+          this.state.favoritCategories.map((el, index) => {
+            return (
+              <Route exact path={`/${el}`} key={index} render={
+                () => {
+                  return (
+                    <>
+                    <SearchForm onSearch={this.performSearch} />
+                    <Navigation 
+                      categories={this.state.favoritCategories}
+                    />
+                    <Gallery data={this.state.favoritsData[index]} />
+                    </>              
+                  );
+                }
+              }/>            
+            ) 
+          })       
         }
 
-        <Route exact path={`/search/:searchFor`} render={() => <Gallery data={this.state.searchData} searching={this.state.searching} />}
-        />
+        <Route exact path='/search/:searchFor' render={
+          () => {
+            return (
+              <>
+              <SearchForm onSearch={this.performSearch} />
+              <Navigation 
+                categories={this.state.favoritCategories}
+              />
+              <Gallery data={this.state.searchData} searching={this.state.searching} />
+              </>              
+            );
+          }
+        }/>
 
+        <Route component={ErrorPage} />        
+        </Switch>
         </div>
       </BrowserRouter>
     );
