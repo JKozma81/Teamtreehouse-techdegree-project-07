@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import axios from 'axios';
 import './css/index.css';
-import ApiKey from './Config';
+import ApiKey from './config';
 
 
 // Component imports
