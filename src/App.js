@@ -1,17 +1,32 @@
+/*
+<link href="https://fonts.googleapis.com/css?family=Gudea:400,700|Rancho" rel="stylesheet">
+header font
+font-family: 'Rancho', cursive;
+text font
+font-family: 'Gudea', sans-serif;
+
+Colors
+gray backround color #f5f5f5
+pink for highlight #fc5185
+lightblue for active border #3fc1c9
+dark blue for text #364f6b
+*/
+
 import React, { Component } from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import axios from 'axios';
 import './css/index.css';
-import ApiKey from './config';
 
 
 // Component imports
-import SearchForm from './Components/SearchForm';
-import Navigation from './Components/Nav';
+import Header from './Components/Header';
 import Gallery from './Components/Gallery';
 import ErrorPage from './Components/Error';
 
+// Config import for the api key
+import ApiKey from './config';
 
+// Main component
 class App extends Component {
   state = {
     favoritCategories: ['Mustang', 'Koalas', 'Parrot'],
@@ -22,7 +37,7 @@ class App extends Component {
     searching: false,
 
   }
-
+  // Fetching the images for the categories provided
   componentDidMount() {
     const promises = this.state.favoritCategories.map((element) => this.fetchData(element));
     const datas = Promise.all(promises)
@@ -35,12 +50,14 @@ class App extends Component {
     }).catch(err => console.error(err));
   }
 
+  // Main fetch methode
   fetchData = (searchFor) => {
     const url = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${ApiKey}&tags=${searchFor.toLowerCase()}&per_page=24&page=1&format=json&nojsoncallback=1`;
     const request = axios.get(url);
     return request;
   }
 
+  // Fetching images for the search and updating state
   performSearch = (query) => {
     let textToSearch = '';
     this.setState({
@@ -70,54 +87,58 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
         <Switch>
-        <Route exact path='/' render={
-          () => {
-            return (
-              <>
-              <SearchForm onSearch={this.performSearch} />
-              <Navigation 
-                categories={this.state.favoritCategories}
-              />
-              </>              
-            );
+          {/* Home route */}
+          <Route exact path='/' render={
+            () => {
+              return (
+                <>
+                  <Header
+                    onSearch={this.performSearch}
+                    categories={this.state.favoritCategories}
+                  />
+                </>              
+              );
+            }
+          }/>
+
+          {/* Routes for the categories */}
+          {
+            this.state.favoritCategories.map((el, index) => {
+              return (
+                <Route exact path={`/${el}`} key={index} render={
+                  () => {
+                    return (
+                      <>
+                        <Header
+                          onSearch={this.performSearch}
+                          categories={this.state.favoritCategories}
+                        />
+                        <Gallery data={this.state.favoritsData[index]} />
+                      </>              
+                    );
+                  }
+                }/>            
+              ) 
+            })       
           }
-        }/>
 
-        {
-          this.state.favoritCategories.map((el, index) => {
-            return (
-              <Route exact path={`/${el}`} key={index} render={
-                () => {
-                  return (
-                    <>
-                    <SearchForm onSearch={this.performSearch} />
-                    <Navigation 
-                      categories={this.state.favoritCategories}
-                    />
-                    <Gallery data={this.state.favoritsData[index]} />
-                    </>              
-                  );
-                }
-              }/>            
-            ) 
-          })       
-        }
+          {/* Search route */}
+          <Route exact path={`/search/:${this.state.searchText.includes(' ') ? this.state.searchText.split(' ').join('-') : this.state.searchText}`} render={
+            () => {
+              return (
+                <>
+                  <Header
+                    onSearch={this.performSearch}
+                    categories={this.state.favoritCategories}
+                  />
+                  <Gallery data={this.state.searchData} searching={this.state.searching} />
+                </>              
+              );
+            }
+          }/>
 
-        <Route exact path={`/search/:${this.state.searchText.includes(' ') ? this.state.searchText.split(' ').join('-') : this.state.searchText}`} render={
-          () => {
-            return (
-              <>
-              <SearchForm onSearch={this.performSearch} />
-              <Navigation 
-                categories={this.state.favoritCategories}
-              />
-              <Gallery data={this.state.searchData} searching={this.state.searching} />
-              </>              
-            );
-          }
-        }/>
-
-        <Route component={ErrorPage} />        
+          {/* 404 error route */}
+          <Route component={ErrorPage} />        
         </Switch>
         </div>
       </BrowserRouter>

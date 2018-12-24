@@ -1,12 +1,14 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {withRouter} from 'react-router-dom'
 
-class SearchForm extends Component {
+// Component for the search input
+class SearchForm extends PureComponent {
 
+  // Method for hanle the search form submit
   handleSearch = (event) => {
     event.preventDefault();
     this.props.onSearch(this.searchFor.value);
-
+    // Creating the path and redirecting to the appropriate route
     const path=`/search/${this.searchFor.value.includes(' ') ? this.searchFor.value.split(' ').join('-').toLowerCase() : this.searchFor.value.toLowerCase()}`;
     this.props.history.push(path);
     event.currentTarget.reset();

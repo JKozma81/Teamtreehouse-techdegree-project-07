@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Component for displaying the no result message
 const NoResults = () => (
   <li className="not-found">
     <h3>No Results Found</h3>

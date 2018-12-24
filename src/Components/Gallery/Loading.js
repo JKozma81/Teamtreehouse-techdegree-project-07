@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Component for the loading animation
 const Loading = () => (
 
   <div className="loading">
