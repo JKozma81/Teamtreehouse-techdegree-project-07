@@ -7,7 +7,6 @@ import Loading from './Loading';
 
 // Gallery container component
 const Gallery = (props) => {
-
   return (
     <div className="photo-container">
       <h2>Results for:</h2>

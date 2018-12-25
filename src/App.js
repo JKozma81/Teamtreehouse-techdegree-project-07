@@ -21,7 +21,7 @@ class App extends Component {
     searchData: [],
     searching: false
   }
-  // Fetching the images for the categories provided
+  // Fetching the images for the provided categories
   componentDidMount() {
     const promises = this.state.favoritCategories.map((element) => this.fetchData(element));
     const datas = Promise.all(promises)
@@ -34,7 +34,7 @@ class App extends Component {
     }).catch(err => console.error(err));
   }
 
-  // Main fetch methode
+  // Main fetch method
   fetchData = (searchFor) => {
     const url = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${ApiKey}&tags=${searchFor.toLowerCase()}&per_page=24&page=1&format=json&nojsoncallback=1`;
     const request = axios.get(url);
@@ -50,7 +50,7 @@ class App extends Component {
       searchData: []
     })
 
-    if (query.includes(' ') > -1) {
+    if (query.includes(' ')) {
       textToSearch = query.split(' ').join('+');
     } else {
       textToSearch = query;

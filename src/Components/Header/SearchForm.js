@@ -4,7 +4,7 @@ import {withRouter} from 'react-router-dom'
 // Component for the search input
 class SearchForm extends PureComponent {
 
-  // Method for hanle the search form submit
+  // Method for handle the search form submit
   handleSearch = (event) => {
     event.preventDefault();
     this.props.onSearch(this.searchFor.value);
