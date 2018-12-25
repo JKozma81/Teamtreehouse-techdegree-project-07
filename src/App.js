@@ -19,7 +19,6 @@ class App extends Component {
     favoritsData: [],
     searchText: '',
     searchData: [],
-    menuIndex: undefined,
     searching: false
   }
   // Fetching the images for the categories provided
