@@ -1,17 +1,3 @@
-/*
-<link href="https://fonts.googleapis.com/css?family=Gudea:400,700|Rancho" rel="stylesheet">
-header font
-font-family: 'Rancho', cursive;
-text font
-font-family: 'Gudea', sans-serif;
-
-Colors
-gray backround color #f5f5f5
-pink for highlight #fc5185
-lightblue for active border #3fc1c9
-dark blue for text #364f6b
-*/
-
 import React, { Component } from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import axios from 'axios';
@@ -29,13 +15,12 @@ import ApiKey from './config';
 // Main component
 class App extends Component {
   state = {
-    favoritCategories: ['Mustang', 'Koalas', 'Parrot'],
+    favoritCategories: ['Waterfalls', 'Koalas', 'Parrot'],
     favoritsData: [],
     searchText: '',
     searchData: [],
     menuIndex: undefined,
-    searching: false,
-
+    searching: false
   }
   // Fetching the images for the categories provided
   componentDidMount() {
@@ -113,7 +98,7 @@ class App extends Component {
                           onSearch={this.performSearch}
                           categories={this.state.favoritCategories}
                         />
-                        <Gallery data={this.state.favoritsData[index]} />
+                        <Gallery data={this.state.favoritsData[index]} text={this.state.favoritCategories[index]} />
                       </>              
                     );
                   }
@@ -131,7 +116,7 @@ class App extends Component {
                     onSearch={this.performSearch}
                     categories={this.state.favoritCategories}
                   />
-                  <Gallery data={this.state.searchData} searching={this.state.searching} />
+                  <Gallery data={this.state.searchData} searching={this.state.searching} text={this.state.searchText} />
                 </>              
               );
             }

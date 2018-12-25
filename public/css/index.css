@@ -1,13 +1,15 @@
 body {
   text-align: center;
-  font-family: 'Open Sans', sans-serif;
-  color: #3f4850;
+  font-family: 'Gudea', sans-serif;
+  color: #66c6ba;
+  background-color: #c8f4de;
 }
 
 h2 {
+  font-family: 'Rancho', cursive;
   font-size: 2em;
-  margin: 52px 0 40px;
-  text-transform: capitalize;
+  margin: 52px 0 10px;
+  text-decoration: underline;
 }
 
 ul {
@@ -27,41 +29,47 @@ a {
 
 .search-form button {
   outline: none;
-  background-color: #438bbd;
+  background-color: #66c6ba;
   border: none;
   padding: 0px 15px;
   border-radius: 0 0.35em 0.35em 0;
   cursor: pointer;
+  box-shadow: 5px 5px 3px #649dad, 0px 5px 3px #649dad;
 }
 
 input {
   font-size: 1em;
   width: 100%;
-  background-color: #edeff0;
+  color: #66c6ba;
+  background-color: #c8f4de;
   padding: 10px 15px;
-  border: 3px solid #d7dbdf;
+  border: 3px solid #66c6ba;
   border-right: none;
   border-radius: 0.35em 0 0 0.35em;
   outline: none;
+  box-shadow: 5px 5px 3px #649dad, 0px 5px 3px #649dad;
 }
 
 .main-nav li {
   width: 100%;
   margin-bottom: 1em;
+  
 }
 
 .main-nav a {
   display: block;
-  background: #438bbd;
+  background: #66c6ba;
   border-radius: 3px;
   padding: 5px;
-  color: #fff;
+  color: #c8f4de;
+  box-shadow: 5px 5px 3px #649dad, 0px 5px 3px #649dad;
 }
 
 .main-nav .active,
 .main-nav a:hover,
 .search-form button:hover {
-  background-color: #275270;
+  background-color: #a4e5d9;
+  color: #649dad;
 }
 
 .photo-container ul {
@@ -70,6 +78,7 @@ input {
   justify-content: space-between;
   -ms-align-items: flex-start;
   align-items: flex-start;
+  width: 65%;
 }
 
 .photo-container ul li {
@@ -77,6 +86,8 @@ input {
   height: 165px;
   overflow: hidden;
   margin-bottom: 15px;
+  border: 3px solid #66c6ba;
+  box-shadow: 5px 5px 3px #649dad, 0px 5px 3px #649dad;
 }
 
 .photo-container ul img {
@@ -122,4 +133,43 @@ input {
     margin: 10px;
     width: 100px;
   }
+}
+
+/* My custom styles */
+.photo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.photo-container .loading {
+  width: 100%;
+  display: block;
+}
+
+.photo-container .loading .loading--img {
+  width: 50px;
+  margin: 0 auto;
+}
+
+.App .error-container {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 88vh;
+  background-image: url('../img/404.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.App .error-container a {
+  font-size: 1.5em;
+  text-decoration: underline;
+  font-weight: bold;
+  transform: translateX(-50%);
+  position: absolute;
+  bottom: 5%;
+  color: #66c6ba;
 }
