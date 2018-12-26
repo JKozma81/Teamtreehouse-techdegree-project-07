@@ -26,7 +26,7 @@ When you don't have it installed, you can dowloaded it at: https://nodejs.org/en
    The file must contain the folowing information in this format:
    (Replace the YOUR API KEY text inside the quotation marks with the one you received.)
 
-   const apiKey = "YOUR API KEY";
+   const apiKey = "YOUR API KEY";   
    export default apiKey;
 
 2. Install the dependencies required to run the project.
