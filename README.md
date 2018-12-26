@@ -14,12 +14,12 @@ Note: I have been altered the CSS styling a little bit:
   - Added a little bit of box shadow
 
 Since the app is connected to the Flickr page API in order to run the project you will need an API key.
-To request an API key you must create yahoo account/use tumblr account to sign in and apply for a non-commercial API key at:
+To request an API key you must create yahoo account/use tumblr account to sign in and apply for a non-commercial API key at:  
 https://www.flickr.com/services/apps/create/apply/
 
-After you have your key, follow the steps below:
+After you have your key, follow the steps below:  
 
-In order to run the project on your computer you need to have Node.js installed on it.
+In order to run the project on your computer you need to have Node.js installed on it.  
 When you don't have it installed, you can dowloaded it at: https://nodejs.org/en/
 
 1. After you downloaded the project, in the root directory create a config.js file
@@ -29,8 +29,9 @@ When you don't have it installed, you can dowloaded it at: https://nodejs.org/en
    const apiKey = "YOUR API KEY";   
    export default apiKey;
 
-2. Install the dependencies required to run the project.
-   Open your terminal and navigate to the folder where you downloaded the project files and type in:
+2. Install the dependencies required to run the project.  
+   Open your terminal and navigate to the folder where you downloaded the project files.  
+   Go in the projects root directory and type in:
 
    npm install
 
