@@ -78,7 +78,7 @@ input {
   justify-content: space-between;
   -ms-align-items: flex-start;
   align-items: flex-start;
-  width: 65%;
+  width: 50%;
 }
 
 .photo-container ul li {
